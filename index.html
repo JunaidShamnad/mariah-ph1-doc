@@ -1,3 +1,758 @@
+<!-- <!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mariah Travel | Comprehensive UX & Strategy Blueprint</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            bg: '#FBF9F6',
+                            text: '#2C2F33',
+                            accent: '#C67443',
+                            light: '#E2E6E0',
+                            dark: '#1C372E',
+                            border: '#D5D9D3'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #FBF9F6;
+            color: #2C2F33;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #E2E6E0; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1C372E; 
+            border-radius: 4px;
+        }
+        .sitemap-line {
+            border-left: 2px solid #C67443;
+            padding-left: 1.5rem;
+            margin-left: 1rem;
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-active {
+            background-color: #1C372E;
+            color: #FBF9F6;
+        }
+        .nav-inactive {
+            color: #1C372E;
+        }
+        .nav-inactive:hover {
+            background-color: #E2E6E0;
+        }
+    </style>
+
+    <!-- Chosen Palette: Deep Forest Green (#1C372E), Warm Sand/Stone (#FBF9F6), Terracotta Accent (#C67443), and Charcoal Text (#2C2F33). -->
+    <!-- Application Structure Plan: A comprehensive Dashboard interface. A sticky sidebar navigation allows the client to seamlessly jump between overarching strategy (Goals, Brand), structural logic (Sitemap Explorer), visual user journeys, and highly detailed, page-by-page blueprints (incorporating all FAQs, Testimonials, and CTAs from the raw PDFs). This satisfies the need for high-level summary AND granular detail without losing context. -->
+    <!-- Visualization & Content Choices: 
+        - Business Goals: Doughnut Chart (Chart.js) to visualize the shift from transactional to relationship/conservation-based revenue.
+        - Sitemap Architecture: Interactive HTML/Tailwind list with click-to-reveal detailed rationales, justifying the "future scale" nomenclature.
+        - User Journeys: CSS Flexbox flowcharts (NO SVG) mapping step-by-step psychological progression for the Mature Explorer vs Experiential Seeker.
+        - Page Blueprints: Interactive tabbed interface detailing exact section-by-section layouts for Home, Landing, and Inquiry pages, embedding real PDF content (quotes, FAQs).
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<!-- <body class="flex flex-col md:flex-row min-h-screen font-sans">
+
+    <button id="mobile-menu-btn" class="md:hidden fixed top-4 right-4 z-50 bg-brand-dark text-white p-3 rounded-full shadow-lg text-xl leading-none">
+        &#9776;
+    </button>
+
+    <aside id="sidebar" class="w-full md:w-72 bg-white border-r border-brand-border flex-shrink-0 fixed md:sticky top-0 h-screen z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 overflow-y-auto custom-scrollbar shadow-2xl md:shadow-none">
+        <div class="p-8">
+            <h1 class="font-serif text-2xl font-semibold text-brand-dark mb-1 flex items-center gap-2">
+                <span class="text-brand-accent text-3xl">&#10022;</span> Mariah Travel
+            </h1>
+            <p class="text-xs tracking-widest text-brand-accent uppercase font-bold mb-8">Master Strategy Blueprint</p>
+            
+            <nav class="space-y-2" id="nav-menu">
+                <button onclick="navigate('overview')" id="nav-overview" class="nav-active w-full text-left px-4 py-3 rounded-lg font-medium transition-colors text-sm flex items-center gap-3">
+                    <span class="text-lg">&#128202;</span> Executive Strategy
+                </button>
+                <button onclick="navigate('sitemap')" id="nav-sitemap" class="nav-inactive w-full text-left px-4 py-3 rounded-lg font-medium transition-colors text-sm flex items-center gap-3">
+                    <span class="text-lg">&#128450;</span> Sitemap Architecture
+                </button>
+                <button onclick="navigate('journeys')" id="nav-journeys" class="nav-inactive w-full text-left px-4 py-3 rounded-lg font-medium transition-colors text-sm flex items-center gap-3">
+                    <span class="text-lg">&#128101;</span> User Journey Flows
+                </button>
+                <button onclick="navigate('blueprints')" id="nav-blueprints" class="nav-inactive w-full text-left px-4 py-3 rounded-lg font-medium transition-colors text-sm flex items-center gap-3">
+                    <span class="text-lg">&#128240;</span> Page Blueprints
+                </button>
+                <button onclick="navigate('trust')" id="nav-trust" class="nav-inactive w-full text-left px-4 py-3 rounded-lg font-medium transition-colors text-sm flex items-center gap-3">
+                    <span class="text-lg">&#127942;</span> Trust & Conversion
+                </button>
+            </nav>
+        </div>
+        <div class="absolute bottom-0 w-full p-6 border-t border-brand-border bg-gray-50 text-xs text-gray-500">
+            Based on submitted PDF insights.<br>Designed for scale and authority.
+        </div>
+    </aside>
+
+    <main class="flex-grow p-6 md:p-12 lg:p-16 max-w-6xl mx-auto w-full overflow-x-hidden">
+        
+        <section id="sec-overview" class="fade-in block">
+            <p class="text-brand-accent font-semibold tracking-wider text-sm mb-2 uppercase">Part 1</p>
+            <h2 class="font-serif text-4xl md:text-5xl text-brand-dark mb-6">Executive Strategy & Goals</h2>
+            <p class="text-lg text-brand-text mb-10 leading-relaxed border-l-4 border-brand-accent pl-4">
+                Mariah Travel is a purpose-driven company specializing in small-group educational adventures. The objective of this redesign is to transition the digital presence from a standard transactional booking site to an <strong>expert-led authority platform</strong> that prioritizes relationships, conservation, and meaningful connections.
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-brand-border">
+                    <h3 class="font-serif text-2xl mb-4 text-brand-dark border-b pb-2">Core Business Goals</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="text-brand-accent font-bold mt-1">&#10003;</span>
+                            <div>
+                                <strong class="block text-brand-dark">Meaningful Travel</strong>
+                                <span class="text-sm text-gray-600">Immerse travelers (35-70+) in authentic culture, nature, wildlife, and local communities.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-brand-accent font-bold mt-1">&#10003;</span>
+                            <div>
+                                <strong class="block text-brand-dark">Lasting Relationships</strong>
+                                <span class="text-sm text-gray-600">Build a loyal community of travelers, partners, and specialty interest groups over one-time bookings.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-brand-accent font-bold mt-1">&#10003;</span>
+                            <div>
+                                <strong class="block text-brand-dark">Conservation Support</strong>
+                                <span class="text-sm text-gray-600">Design experiences that directly benefit local people and sustainable tourism efforts.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-brand-accent font-bold mt-1">&#10003;</span>
+                            <div>
+                                <strong class="block text-brand-dark">Trusted Expert Positioning</strong>
+                                <span class="text-sm text-gray-600">Leverage decades of field experience, ecological expertise, and destination knowledge.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-brand-border flex flex-col justify-center">
+                    <h3 class="font-serif text-xl mb-2 text-center text-brand-dark">Strategic Shift Focus</h3>
+                    <p class="text-xs text-center text-gray-500 mb-6">Transitioning focus from generic tourism to authority-led experiences.</p>
+                    <div class="chart-container h-64">
+                        <canvas id="strategyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-brand-dark text-white p-8 rounded-2xl">
+                <h3 class="font-serif text-2xl mb-4 text-brand-accent">The "Why Mariah?" Value Proposition</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div class="bg-white/10 p-4 rounded-lg text-center">&#128101;<br>Small Groups</div>
+                    <div class="bg-white/10 p-4 rounded-lg text-center">&#129485;<br>Expert Guides</div>
+                    <div class="bg-white/10 p-4 rounded-lg text-center">&#127793;<br>Nature & Wildlife</div>
+                    <div class="bg-white/10 p-4 rounded-lg text-center">&#129309;<br>Community Impact</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-sitemap" class="fade-in hidden">
+            <p class="text-brand-accent font-semibold tracking-wider text-sm mb-2 uppercase">Part 2</p>
+            <h2 class="font-serif text-4xl md:text-5xl text-brand-dark mb-6">Scalable Sitemap Architecture</h2>
+            <p class="text-lg text-brand-text mb-8">
+                Designed as a scalable system. We avoid restrictive nomenclature like "Cuba Tours" in the main navigation. By using "Destinations" and "Experiences," adding future programs (Costa Rica, Colombia, Thailand) requires zero structural redesign.
+            </p>
+
+            <div class="flex flex-col lg:flex-row gap-8">
+                <div class="w-full lg:w-1/2 bg-white rounded-2xl border border-brand-border p-6 shadow-sm">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-4 pb-2 border-b">Interactive Site Structure</h3>
+                    
+                    <div class="space-y-2 text-brand-dark font-medium">
+                        <div class="p-3 bg-gray-50 rounded border border-gray-100 cursor-pointer hover:border-brand-accent transition-colors" onclick="loadNode('home')">
+                            &#127968; Home
+                        </div>
+                        
+                        <div>
+                            <div class="p-3 bg-gray-50 rounded border border-gray-100 cursor-pointer hover:border-brand-accent transition-colors flex justify-between items-center" onclick="loadNode('destinations')">
+                                <span>&#128205; Destinations</span>
+                                <span class="text-brand-accent text-lg">&#9662;</span>
+                            </div>
+                            <div class="sitemap-line text-sm text-gray-600 mt-2 space-y-2">
+                                <div class="cursor-pointer hover:text-brand-accent" onclick="loadNode('dest-cuba')">Cuba <span class="text-xs bg-brand-light px-2 rounded-full ml-1 text-brand-dark">Core</span></div>
+                                <div class="cursor-pointer hover:text-brand-accent" onclick="loadNode('dest-gala')">Galápagos</div>
+                                <div class="cursor-pointer hover:text-brand-accent" onclick="loadNode('dest-peru')">Peru</div>
+                                <div class="italic text-gray-400">Costa Rica / Colombia / Thailand (Future)</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="p-3 bg-gray-50 rounded border border-gray-100 cursor-pointer hover:border-brand-accent transition-colors flex justify-between items-center mt-2" onclick="loadNode('experiences')">
+                                <span>&#127793; Experiences (Themes)</span>
+                                <span class="text-brand-accent text-lg">&#9662;</span>
+                            </div>
+                            <div class="sitemap-line text-sm text-gray-600 mt-2 space-y-2">
+                                <div class="cursor-pointer hover:text-brand-accent" onclick="loadNode('exp-birding')">Birding & Wildlife</div>
+                                <div class="cursor-pointer hover:text-brand-accent" onclick="loadNode('exp-culture')">Culture & History</div>
+                                <div class="cursor-pointer hover:text-brand-accent" onclick="loadNode('exp-photo')">Photography</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="p-3 bg-gray-50 rounded border border-gray-100 cursor-pointer hover:border-brand-accent transition-colors flex justify-between items-center mt-2" onclick="loadNode('styles')">
+                                <span>&#128674; Travel Styles</span>
+                                <span class="text-brand-accent text-lg">&#9662;</span>
+                            </div>
+                            <div class="sitemap-line text-sm text-gray-600 mt-2 space-y-2">
+                                <div class="cursor-pointer hover:text-brand-accent">Small Group Tours</div>
+                                <div class="cursor-pointer hover:text-brand-accent">Cruise Expeditions (Galapagos)</div>
+                                <div class="cursor-pointer hover:text-brand-accent">Custom Travel (Families/Organizations)</div>
+                            </div>
+                        </div>
+
+                        <div class="p-3 bg-gray-50 rounded border border-gray-100 cursor-pointer hover:border-brand-accent transition-colors mt-2" onclick="loadNode('about')">
+                            &#128101; The Mariah Difference (About)
+                        </div>
+                        
+                        <div class="p-3 bg-gray-50 rounded border border-gray-100 cursor-pointer hover:border-brand-accent transition-colors mt-2" onclick="loadNode('resources')">
+                            &#128196; Resources (FAQ, Packing, Legal)
+                        </div>
+
+                        <div class="p-3 bg-brand-dark text-white rounded border border-brand-dark cursor-pointer hover:bg-brand-accent transition-colors mt-4 text-center font-bold" onclick="loadNode('contact')">
+                            &#9993; Talk With Us (Inquiry Flow)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-1/2">
+                    <div id="node-details" class="bg-brand-light/30 border border-brand-border p-8 rounded-2xl h-full sticky top-24">
+                        <span class="text-4xl block mb-4">&#128072;</span>
+                        <h3 class="font-serif text-2xl text-brand-dark mb-2">Select an architecture node</h3>
+                        <p class="text-gray-600">Click any item in the sitemap to reveal the psychological rationale, content strategy, and user intent for that specific section.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-journeys" class="fade-in hidden">
+            <p class="text-brand-accent font-semibold tracking-wider text-sm mb-2 uppercase">Part 3</p>
+            <h2 class="font-serif text-4xl md:text-5xl text-brand-dark mb-6">User Journey Flows</h2>
+            <p class="text-lg text-brand-text mb-10">
+                People rarely browse in only one way. We must support multiple entry points. Our goal is to move visitors from curiosity to a conversation, bypassing the "Expedia-like" impulse buy.
+            </p>
+
+            <div class="space-y-12">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-brand-border">
+                    <h3 class="font-serif text-2xl text-brand-dark border-b pb-4 mb-6 flex items-center gap-3">
+                        <span class="bg-brand-dark text-white p-2 rounded-lg text-sm">&#128269;</span>
+                        Flow A: Destination-Driven (The Reassurance Seeker)
+                    </h3>
+                    <p class="text-sm text-gray-500 mb-6 italic">Target: Mature Explorer (Age 50-70+). Highly motivated but needs safety and trust established first.</p>
+                    
+                    <div class="flex flex-col md:flex-row items-center gap-4 text-center">
+                        <div class="flex-1 bg-gray-50 border border-gray-200 p-6 rounded-xl w-full">
+                            <span class="block text-2xl mb-2">&#127968;</span>
+                            <strong class="block text-brand-dark">1. Home / Hero</strong>
+                            <span class="text-xs text-gray-500 mt-2 block">"Small Group Culture & Nature Journeys Around the World"</span>
+                        </div>
+                        <div class="text-brand-accent text-2xl hidden md:block">&#8594;</div>
+                        <div class="text-brand-accent text-2xl md:hidden">&#8595;</div>
+                        
+                        <div class="flex-1 bg-gray-50 border border-gray-200 p-6 rounded-xl w-full">
+                            <span class="block text-2xl mb-2">&#128205;</span>
+                            <strong class="block text-brand-dark">2. "Discover Cuba"</strong>
+                            <span class="text-xs text-gray-500 mt-2 block">Reviews "Is it legal? Is it safe?" FAQs & Testimonials.</span>
+                        </div>
+                        <div class="text-brand-accent text-2xl hidden md:block">&#8594;</div>
+                        <div class="text-brand-accent text-2xl md:hidden">&#8595;</div>
+
+                        <div class="flex-1 bg-gray-50 border border-brand-accent border-2 p-6 rounded-xl w-full">
+                            <span class="block text-2xl mb-2">&#128101;</span>
+                            <strong class="block text-brand-dark">3. The Mariah Difference</strong>
+                            <span class="text-xs text-gray-500 mt-2 block">Sees NWF Award, Decades of Experience. Trust established.</span>
+                        </div>
+                        <div class="text-brand-accent text-2xl hidden md:block">&#8594;</div>
+                        <div class="text-brand-accent text-2xl md:hidden">&#8595;</div>
+
+                        <div class="flex-1 bg-brand-dark text-white p-6 rounded-xl w-full shadow-lg">
+                            <span class="block text-2xl mb-2">&#128172;</span>
+                            <strong class="block">4. Talk With Us</strong>
+                            <span class="text-xs text-brand-light mt-2 block">Submits detailed inquiry form for a conversation.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-brand-border">
+                    <h3 class="font-serif text-2xl text-brand-dark border-b pb-4 mb-6 flex items-center gap-3">
+                        <span class="bg-brand-dark text-white p-2 rounded-lg text-sm">&#127793;</span>
+                        Flow B: Theme-Driven (The Niche Enthusiast)
+                    </h3>
+                    <p class="text-sm text-gray-500 mb-6 italic">Target: Specialty interests (Birding, Photography, Art/Music). Focuses on the activity over the location.</p>
+                    
+                    <div class="flex flex-col md:flex-row items-center gap-4 text-center">
+                        <div class="flex-1 bg-gray-50 border border-gray-200 p-6 rounded-xl w-full">
+                            <span class="block text-2xl mb-2">&#128270;</span>
+                            <strong class="block text-brand-dark">1. Organic Search</strong>
+                            <span class="text-xs text-gray-500 mt-2 block">Googles "Birding Cuba in Spring" (Blog/Resource hit).</span>
+                        </div>
+                        <div class="text-brand-accent text-2xl hidden md:block">&#8594;</div>
+                        <div class="text-brand-accent text-2xl md:hidden">&#8595;</div>
+                        
+                        <div class="flex-1 bg-gray-50 border border-gray-200 p-6 rounded-xl w-full">
+                            <span class="block text-2xl mb-2">&#129417;</span>
+                            <strong class="block text-brand-dark">2. Birding Experience Page</strong>
+                            <span class="text-xs text-gray-500 mt-2 block">Sees itineraries tailored to wildlife and photography.</span>
+                        </div>
+                        <div class="text-brand-accent text-2xl hidden md:block">&#8594;</div>
+                        <div class="text-brand-accent text-2xl md:hidden">&#8595;</div>
+
+                        <div class="flex-1 bg-gray-50 border border-brand-accent border-2 p-6 rounded-xl w-full">
+                            <span class="block text-2xl mb-2">&#128229;</span>
+                            <strong class="block text-brand-dark">3. Lead Capture</strong>
+                            <span class="text-xs text-gray-500 mt-2 block">Downloads "5 Birds You Can Only See in Cuba" PDF.</span>
+                        </div>
+                        <div class="text-brand-accent text-2xl hidden md:block">&#8594;</div>
+                        <div class="text-brand-accent text-2xl md:hidden">&#8595;</div>
+
+                        <div class="flex-1 bg-brand-dark text-white p-6 rounded-xl w-full shadow-lg">
+                            <span class="block text-2xl mb-2">&#9993;</span>
+                            <strong class="block">4. Email Nurture</strong>
+                            <span class="text-xs text-brand-light mt-2 block">Receives relationship-building emails leading to booking.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-blueprints" class="fade-in hidden">
+            <p class="text-brand-accent font-semibold tracking-wider text-sm mb-2 uppercase">Part 4</p>
+            <h2 class="font-serif text-4xl md:text-5xl text-brand-dark mb-6">Page-by-Page Blueprints</h2>
+            <p class="text-lg text-brand-text mb-8">
+                Detailed structural layouts for the core templates. This ensures the design acts as a cohesive system based directly on the provided documents.
+            </p>
+
+            <div class="flex flex-col md:flex-row border-b border-brand-border mb-8">
+                <button onclick="switchBlueprint('bp-home')" id="tab-bp-home" class="bp-tab px-6 py-4 font-bold text-brand-dark border-b-4 border-brand-accent bg-white">Home Page</button>
+                <button onclick="switchBlueprint('bp-landing')" id="tab-bp-landing" class="bp-tab px-6 py-4 font-medium text-gray-500 hover:bg-white hover:text-brand-dark border-b-4 border-transparent transition-colors">Dest. Landing (Cuba)</button>
+                <button onclick="switchBlueprint('bp-inquiry')" id="tab-bp-inquiry" class="bp-tab px-6 py-4 font-medium text-gray-500 hover:bg-white hover:text-brand-dark border-b-4 border-transparent transition-colors">Inquiry Flow</button>
+            </div>
+
+            <!-- Home Blueprint -->
+            <!-- <div id="bp-home" class="bp-content space-y-4">
+                <div class="bg-gray-800 text-white p-12 text-center rounded-xl shadow-inner relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-20 text-[200px] flex items-center justify-center -translate-y-10">&#127758;</div>
+                    <div class="relative z-10">
+                        <span class="text-brand-accent text-sm font-bold tracking-widest uppercase block mb-4">Hero Section</span>
+                        <h3 class="font-serif text-3xl md:text-5xl mb-6 leading-tight">Small Group Culture & Nature Journeys Around the World</h3>
+                        <div class="flex justify-center gap-4">
+                            <span class="px-6 py-3 bg-brand-accent text-white rounded font-bold shadow-lg">Explore Journeys</span>
+                            <span class="px-6 py-3 bg-white text-gray-900 rounded font-bold shadow-lg">Request Information</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white border border-brand-border p-6 rounded-xl text-center">
+                        <span class="text-gray-400 text-xs font-bold uppercase block mb-2">Featured Destinations</span>
+                        <h4 class="font-serif text-xl">Cuba</h4>
+                    </div>
+                    <div class="bg-white border border-brand-border p-6 rounded-xl text-center">
+                        <span class="text-gray-400 text-xs font-bold uppercase block mb-2">Featured Destinations</span>
+                        <h4 class="font-serif text-xl">Galápagos</h4>
+                    </div>
+                    <div class="bg-white border border-brand-border p-6 rounded-xl text-center">
+                        <span class="text-gray-400 text-xs font-bold uppercase block mb-2">Featured Destinations</span>
+                        <h4 class="font-serif text-xl">Peru</h4>
+                    </div>
+                </div>
+
+                <div class="bg-brand-dark text-white p-8 rounded-xl text-center">
+                    <span class="text-brand-accent text-sm font-bold tracking-widest uppercase block mb-4">Trust Bar & Authority</span>
+                    <h3 class="font-serif text-2xl mb-4">Why Travel With Mariah?</h3>
+                    <p class="text-brand-light mb-6">Expert guides | Meaningful cultural connections | Conservation-minded travel</p>
+                    <div class="inline-block border-2 border-brand-accent px-6 py-3 rounded">
+                        &#127942; Recognized by National Wildlife Federation as One of North America's Top Wildlife Tour Companies
+                    </div>
+                </div>
+            </div>
+
+            <!-- Landing Blueprint -->
+            <!-- <div id="bp-landing" class="bp-content hidden space-y-4">
+                <div class="bg-brand-dark text-white p-12 text-center rounded-xl shadow-inner relative overflow-hidden">
+                    <h3 class="font-serif text-4xl mb-2">Discover Cuba</h3>
+                    <p class="text-brand-light">Hero Image Area | Hook Statement</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white border border-brand-border p-6 rounded-xl">
+                        <h4 class="font-serif text-xl mb-4 text-brand-dark">Highlights & Content</h4>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li>&#10003; Why Go? (Cultural & Ecological Hook)</li>
+                            <li>&#10003; Sample Itinerary Overview</li>
+                            <li>&#10003; Photo Gallery (Authentic imagery)</li>
+                            <li>&#10003; Upcoming Departures Matrix</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-brand-light/30 border border-brand-border p-6 rounded-xl">
+                        <h4 class="font-serif text-xl mb-4 text-brand-dark">Lead Magnet / Value Add</h4>
+                        <div class="bg-white p-4 rounded text-center shadow-sm">
+                            <span class="block text-2xl mb-2">&#128229;</span>
+                            <strong class="block text-sm">Download "Planning for Cuba" Itinerary</strong>
+                            <p class="text-xs text-gray-500 mt-1 mb-3">Email capture before download.</p>
+                            <button class="bg-brand-accent text-white text-xs px-4 py-2 rounded">Get Guide</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-brand-border p-8 rounded-xl">
+                    <h4 class="font-serif text-2xl mb-6 text-brand-dark">Crucial Objection Handling: FAQs</h4>
+                    <p class="text-sm text-gray-500 mb-6">Essential for high-friction destinations like Cuba to reduce email load.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-3 bg-gray-50 rounded border text-sm font-medium">&#10067; Is travel to Cuba legal?</div>
+                        <div class="p-3 bg-gray-50 rounded border text-sm font-medium">&#10067; Is Cuba safe?</div>
+                        <div class="p-3 bg-gray-50 rounded border text-sm font-medium">&#10067; What is included?</div>
+                        <div class="p-3 bg-gray-50 rounded border text-sm font-medium">&#10067; How active are tours?</div>
+                        <div class="p-3 bg-gray-50 rounded border text-sm font-medium">&#10067; Can solo travelers join?</div>
+                        <div class="p-3 bg-gray-50 rounded border text-sm font-medium">&#10067; Internet access / Insurance?</div>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- Inquiry Blueprint -->
+            <!-- <div id="bp-inquiry" class="bp-content hidden space-y-4">
+                <div class="bg-white border border-brand-border p-10 rounded-2xl max-w-2xl mx-auto shadow-sm">
+                    <h3 class="font-serif text-3xl mb-4 text-center text-brand-dark">Talk With Us</h3>
+                    <p class="text-center text-gray-600 mb-8">We avoid generic forms. This is the start of a consultation.</p>
+                    
+                    <form class="space-y-6" onsubmit="event.preventDefault();">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Primary Destination Interest</label>
+                            <select class="w-full border border-gray-300 p-3 rounded bg-gray-50">
+                                <option>Cuba</option>
+                                <option>Galapagos</option>
+                                <option>Peru</option>
+                                <option>Not sure, seeking advice</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Preferred Dates</label>
+                                <input type="text" placeholder="e.g., Spring 2027" class="w-full border border-gray-300 p-3 rounded bg-gray-50">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Number of Travelers</label>
+                                <input type="number" placeholder="2" class="w-full border border-gray-300 p-3 rounded bg-gray-50">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">What are you most hoping to experience? (Questions)</label>
+                            <textarea rows="4" class="w-full border border-gray-300 p-3 rounded bg-gray-50" placeholder="Tell us about your travel style..."></textarea>
+                        </div>
+                        <button class="w-full bg-brand-dark text-white font-bold py-4 rounded hover:bg-brand-accent transition-colors">Start the Conversation</button>
+                    </form>
+                </div>
+            </div>
+        </section> -->
+
+        <!-- <section id="sec-trust" class="fade-in hidden">
+            <p class="text-brand-accent font-semibold tracking-wider text-sm mb-2 uppercase">Part 5</p>
+            <h2 class="font-serif text-4xl md:text-5xl text-brand-dark mb-6">Trust & Conversion Engine</h2>
+            <p class="text-lg text-brand-text mb-10">
+                To move away from transactional OTA (Online Travel Agency) templates, Mariah Travel relies on "Truth Signals". People buy people, and they need deep reassurance for educational, high-ticket adventures.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8"> -->
+                <!-- Testimonials -->
+                <!-- <div class="bg-white p-8 rounded-2xl shadow-sm border border-brand-border">
+                    <h3 class="font-serif text-2xl text-brand-dark mb-6 border-b pb-2">The Voice of the Traveler</h3>
+                    <p class="text-sm text-gray-500 mb-6">Specific testimonials integrated contextually (e.g., Birding quotes on the Birding page, not hidden on a generic 'Reviews' page).</p>
+                    
+                    <div class="space-y-6">
+                        <div class="bg-brand-light/20 p-4 rounded-lg border-l-4 border-brand-accent relative">
+                            <span class="absolute top-2 right-4 text-4xl text-brand-light opacity-50 font-serif">"</span>
+                            <p class="text-sm italic text-gray-700 mb-2 relative z-10">One of the best birding trips I've ever taken. Our Cuban guides were outstanding, the habitats were beautiful, and the cultural immersion really made the trip unique.</p>
+                            <p class="text-xs font-bold text-brand-dark">- Patricia M., Tulsa, OK</p>
+                        </div>
+                        <div class="bg-brand-light/20 p-4 rounded-lg border-l-4 border-brand-accent relative">
+                            <span class="absolute top-2 right-4 text-4xl text-brand-light opacity-50 font-serif">"</span>
+                            <p class="text-sm italic text-gray-700 mb-2 relative z-10">Seeing the Bee Hummingbird and the Cuban Trogon was worth the trip alone! But what I'll remember most is the warmth of the Cuban people and the chance to experience their culture firsthand.</p>
+                            <p class="text-xs font-bold text-brand-dark">- Dave L., Arlington, VA</p>
+                        </div>
+                        <div class="bg-brand-light/20 p-4 rounded-lg border-l-4 border-brand-accent relative">
+                            <span class="absolute top-2 right-4 text-4xl text-brand-light opacity-50 font-serif">"</span>
+                            <p class="text-sm italic text-gray-700 mb-2 relative z-10">Cuba surprised me in so many ways... just as special were the connections we made with local naturalists and artists.</p>
+                            <p class="text-xs font-bold text-brand-dark">- Tom R., Boulder, CO</p>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- CTAs & Trust Signals -->
+                <!-- <div class="space-y-8">
+                    <div class="bg-brand-dark text-white p-8 rounded-2xl shadow-sm">
+                        <h3 class="font-serif text-2xl text-brand-accent mb-4">Primary CTAs (The 4 Pillars)</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-center gap-3 bg-white/10 p-3 rounded">
+                                <span class="bg-brand-accent px-2 py-1 rounded text-xs font-bold">1</span>
+                                <span><strong>Reserve/Hold My Spot</strong> (for scheduled trips)</span>
+                            </li>
+                            <li class="flex items-center gap-3 bg-white/10 p-3 rounded">
+                                <span class="bg-brand-accent px-2 py-1 rounded text-xs font-bold">2</span>
+                                <span><strong>Request Information / Talk with Us</strong></span>
+                            </li>
+                            <li class="flex items-center gap-3 bg-white/10 p-3 rounded">
+                                <span class="bg-brand-accent px-2 py-1 rounded text-xs font-bold">3</span>
+                                <span><strong>Join Email List</strong></span>
+                            </li>
+                            <li class="flex items-center gap-3 bg-white/10 p-3 rounded">
+                                <span class="bg-brand-accent px-2 py-1 rounded text-xs font-bold">4</span>
+                                <span><strong>Download Brochure / Itinerary</strong></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white border border-brand-border p-8 rounded-2xl shadow-sm text-center">
+                        <div class="text-4xl text-yellow-500 mb-4">&#11088;</div>
+                        <h3 class="font-serif text-xl text-brand-dark mb-2">Authority Anchors</h3>
+                        <p class="text-sm text-gray-600 mb-4">Required on every major entry page.</p>
+                        <div class="flex flex-wrap justify-center gap-2">
+                            <span class="text-xs bg-gray-100 border border-gray-200 px-3 py-1 rounded-full text-brand-dark font-medium">Decades of Experience</span>
+                            <span class="text-xs bg-gray-100 border border-gray-200 px-3 py-1 rounded-full text-brand-dark font-medium">Safe & Legal Travel Data</span>
+                            <span class="text-xs bg-gray-100 border border-gray-200 px-3 py-1 rounded-full text-brand-dark font-medium">NWF Partnerships</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+    <!-- </main> 
+
+    <script> -->
+        <!-- // Data for Sitemap Explanations
+        const nodeData = {
+            'home': {
+                title: "Home: The Strategy Hub",
+                desc: "We avoid leaning too heavily into 'we sell Cuba tours'. The homepage establishes the identity: connection, education, conservation, and authentic experiences. Features CTAs like 'Explore Journeys' rather than hard-sell 'Book Now'.",
+                icon: "&#127968;"
+            },
+            'destinations': {
+                title: "Destinations Structure",
+                desc: "Instead of calling this 'Cuba Tours', using 'Destinations' acts as a system. Adding Costa Rica, Colombia, or Thailand is a matter of dropping new content into this existing structure instead of redesigning the site.",
+                icon: "&#128205;"
+            },
+            'dest-cuba': {
+                title: "Cuba Landing Page",
+                desc: "Designed as a 'Discover Cuba' portal. Must include Hero, Why go?, Highlights, Itinerary, Gallery, Dates, FAQs (Legal/Safety), and specific Testimonials (like Patricia and Dave's birding feedback).",
+                icon: "&#128205;"
+            },
+            'dest-gala': {
+                title: "Galápagos Landing Page",
+                desc: "Follows the Destination template. Differentiates between Cruise Expeditions and Land-Based Adventures in the Galápagos.",
+                icon: "&#128034;"
+            },
+            'dest-peru': {
+                title: "Peru Landing Page",
+                desc: "Follows the Destination template focusing on cultural immersion and nature.",
+                icon: "&#127956;"
+            },
+            'experiences': {
+                title: "Experiences (Thematic Entry)",
+                desc: "Often stronger than destination are themes. Replaces restrictive terms like 'Birding Trips'. People browse by passion. This architecture scales for future niche expansions.",
+                icon: "&#127793;"
+            },
+            'exp-birding': {
+                title: "Birding & Wildlife",
+                desc: "Targeting specific demographics (often older for birding). Heavy integration of National Wildlife Federation recognition and testimonials mentioning endemics like the Bee Hummingbird.",
+                icon: "&#129417;"
+            },
+            'exp-culture': {
+                title: "Culture & History",
+                desc: "Targeting meaningful cultural connections and local community interactions.",
+                icon: "&#127963;"
+            },
+            'exp-photo': {
+                title: "Photography",
+                desc: "A highly specific niche market that relies heavily on authentic imagery to sell the experience.",
+                icon: "&#128247;"
+            },
+            'styles': {
+                title: "Travel Styles",
+                desc: "A structural layer for users who know HOW they want to travel (e.g., 'I want a small group' or 'I need a custom family trip').",
+                icon: "&#128674;"
+            },
+            'about': {
+                title: "The Mariah Difference",
+                desc: "Crucial for authority. People buy People. This section highlights expert local guides, staff expertise (bios), conservation partnerships, and years in operation.",
+                icon: "&#128101;"
+            },
+            'resources': {
+                title: "Resources & SEO Hub",
+                desc: "Drives organic traffic. Examples: '5 Birds You Can Only See in Cuba', 'Havana After Dark', Packing lists, FAQ. Designed to capture emails via downloadable guides.",
+                icon: "&#128196;"
+            },
+            'contact': {
+                title: "Talk With Us / Inquiry",
+                desc: "Moves away from generic contact forms. Uses consultation styling: Destination interest, Preferred dates, Number of travelers, Questions. Goal is relationship building.",
+                icon: "&#9993;"
+            }
+        };
+
+        // Navigation Logic (Dashboard SPA)
+        function navigate(sectionId) {
+            // Update Nav Styles
+            document.querySelectorAll('#nav-menu button').forEach(btn => {
+                btn.classList.remove('nav-active');
+                btn.classList.add('nav-inactive');
+            });
+            document.getElementById('nav-' + sectionId).classList.add('nav-active');
+            document.getElementById('nav-' + sectionId).classList.remove('nav-inactive');
+
+            // Show/Hide Sections
+            document.querySelectorAll('main > section').forEach(sec => {
+                sec.classList.add('hidden');
+            });
+            document.getElementById('sec-' + sectionId).classList.remove('hidden');
+
+            // Handle mobile menu
+            if (window.innerWidth < 768) {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+            }
+        }
+
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+            }
+        });
+
+        // Sitemap Node Detail Logic
+        function loadNode(nodeKey) {
+            const data = nodeData[nodeKey];
+            const detailContainer = document.getElementById('node-details');
+            
+            detailContainer.classList.remove('fade-in');
+            void detailContainer.offsetWidth; // trigger reflow
+            detailContainer.classList.add('fade-in');
+
+            detailContainer.innerHTML = `
+                <div class="text-4xl text-brand-accent mb-4">${data.icon}</div>
+                <h3 class="font-serif text-2xl text-brand-dark mb-4 border-b border-brand-border pb-2">${data.title}</h3>
+                <p class="text-gray-700 leading-relaxed">${data.desc}</p>
+                <div class="mt-6 inline-block bg-white border border-brand-border px-4 py-2 rounded text-xs font-bold text-gray-500 uppercase tracking-widest shadow-sm">
+                    Strategic Rationale Applied
+                </div>
+            `;
+        }
+
+        // Blueprint Tabs Logic
+        function switchBlueprint(targetId) {
+            document.querySelectorAll('.bp-tab').forEach(tab => {
+                tab.classList.remove('border-brand-accent', 'text-brand-dark', 'bg-white');
+                tab.classList.add('border-transparent', 'text-gray-500', 'bg-transparent');
+            });
+            document.getElementById('tab-' + targetId).classList.add('border-brand-accent', 'text-brand-dark', 'bg-white');
+            document.getElementById('tab-' + targetId).classList.remove('border-transparent', 'text-gray-500', 'bg-transparent');
+
+            document.querySelectorAll('.bp-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.getElementById(targetId).classList.remove('hidden');
+        }
+
+        // Chart.js Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('strategyChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Meaningful Experiences & Education', 'Mass-Market Tourism', 'Conservation Impact', 'Expert-Led Consultation'],
+                    datasets: [{
+                        data: [45, 5, 20, 30],
+                        backgroundColor: [
+                            '#1C372E', // brand-dark
+                            '#E2E6E0', // brand-light
+                            '#C67443', // brand-accent
+                            '#2C2F33'  // brand-text
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: { 
+                            position: 'bottom', 
+                            labels: { 
+                                font: { family: 'Montserrat', size: 11 },
+                                boxWidth: 12
+                            } 
+                        },
+                        tooltip: {
+                            backgroundColor: '#1C372E',
+                            titleFont: { family: 'Lora' },
+                            bodyFont: { family: 'Montserrat' },
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.label + ': ' + context.parsed + '% Focus';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script> -->
+<!-- </body> 
+</html>  -->
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
