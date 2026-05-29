@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mariah Travel | Phase 1 Strategy Dashboard</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts for Premium Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Configuration and Custom CSS -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            bg: '#FAF9F6', // Off-white/stone
+                            text: '#2C3E2D', // Deep forest green
+                            accent: '#C17754', // Warm terracotta/clay
+                            light: '#E8EBE6', // Soft sage
+                            dark: '#1A2421' // Very dark green
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles prioritizing NO SVG and strict chart containers */
+        body {
+            background-color: #FAF9F6;
+            color: #2C3E2D;
+        }
+
+        /* Strict Chart Container Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 40vh;
+            min-height: 300px;
+            max-height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Interactive Sitemap Nodes (No SVG) */
+        .sitemap-node {
+            border-left: 2px solid #C17754;
+            padding-left: 1rem;
+            margin-left: 1rem;
+            margin-top: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .sitemap-button {
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        
+        .sitemap-button:hover {
+            background-color: #E8EBE6;
+        }
+
+        /* Unicode Icons */
+        .icon-unicode {
+            font-family: system-ui, -apple-system, sans-serif;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        /* Custom Scrollbar for inner elements */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #E8EBE6; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #C17754; 
+            border-radius: 4px;
+        }
+    </style>
+
+    <!-- Chosen Palette: Warm Naturals & Forest Green. Backgrounds: Off-white (#FAF9F6). Text: Deep Forest Green (#2C3E2D). Accents: Warm Terracotta (#C17754) and Soft Sage (#E8EBE6). Matches the "premium, warm, nature-led" request. -->
+    <!-- Application Structure Plan: An interactive "Strategy Dashboard" intended for the client (Michael). It translates the research documents into an interactive presentation for Week 1 deliverables. Sections include: Executive Summary, Brand Positioning (Radar Chart), Audience Insights (Doughnut Chart & Tabs), Conversion Strategy (Interactive Flow), and the core deliverable: an Interactive Sitemap architecture. This structure proves project readiness and aligns vision before UI design begins. -->
+    <!-- Visualization & Content Choices: 
+         - Goal: Compare Positioning -> Viz: Radar Chart (Chart.js) comparing Mariah vs Generic Competitors -> Interaction: Hover for tooltips -> Justifies the shift away from transactional UI.
+         - Goal: Inform Audience Split -> Viz: Doughnut Chart (Chart.js) showing Primary (50-70+) vs Secondary (30-45) -> Interaction: Hover tooltips, click legend.
+         - Goal: Organize Website Structure -> Viz: Interactive HTML nested lists (Sitemap) -> Interaction: Click to expand/collapse categories -> Justifies scalable architecture (e.g., "Destinations" instead of just "Cuba").
+         - Goal: Change CTAs -> Viz: Side-by-side interactive text cards -> Interaction: Click to flip/reveal strategy shift. 
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. All visual elements are CSS, Unicode, or HTML Canvas via Chart.js. -->
+</head>
+<body class="font-sans antialiased text-brand-text bg-brand-bg">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-brand-bg/90 backdrop-blur-md border-b border-brand-light shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <span class="text-2xl text-brand-accent">&#10022;</span>
+                    <span class="font-serif font-semibold text-xl tracking-wide">MARIAH TRAVEL</span>
+                </div>
+                <div class="hidden md:flex space-x-8 text-sm font-medium">
+                    <a href="#summary" class="hover:text-brand-accent transition-colors">Project Overview</a>
+                    <a href="#positioning" class="hover:text-brand-accent transition-colors">Brand DNA</a>
+                    <a href="#audience" class="hover:text-brand-accent transition-colors">Audience</a>
+                    <a href="#ux-strategy" class="hover:text-brand-accent transition-colors">UX Strategy</a>
+                    <a href="#architecture" class="hover:text-brand-accent transition-colors">Site Architecture</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="pt-24 pb-16">
+
+        <!-- Header / Executive Summary -->
+        <section id="summary" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 pt-10">
+            <div class="bg-brand-dark text-white rounded-2xl p-8 md:p-12 shadow-xl border-t-4 border-brand-accent relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-12 opacity-10 text-9xl select-none">&#127758;</div>
+                <div class="relative z-10 max-w-3xl">
+                    <p class="text-brand-accent font-semibold tracking-wider text-sm mb-3 uppercase">Phase 1: Research & Strategy Complete</p>
+                    <h1 class="font-serif text-4xl md:text-5xl mb-6 leading-tight">Digital Strategy Presentation:<br>The Experiential Authority</h1>
+                    <p class="text-lg text-gray-300 font-light leading-relaxed mb-6">
+                        Welcome Michael. Based on our strategic alignment, we have synthesized the business goals for Mariah Travel. We are shifting away from a transactional brochure site toward a scalable, relationship-first platform. This dashboard outlines the foundational architecture, positioning data, and UX strategy required to build trust and drive meaningful inquiries.
+                    </p>
+                    <div class="flex flex-wrap gap-4 text-sm">
+                        <span class="bg-white/10 px-4 py-2 rounded-full border border-white/20">&#10003; Positioning Defined</span>
+                        <span class="bg-white/10 px-4 py-2 rounded-full border border-white/20">&#10003; Audience Mapped</span>
+                        <span class="bg-white/10 px-4 py-2 rounded-full border border-white/20 border-brand-accent text-brand-accent font-semibold">&#9654; Architecture Ready for Review</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Brand Positioning & DNA -->
+        <section id="positioning" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24 scroll-mt-24">
+            <div class="text-center mb-12 max-w-3xl mx-auto">
+                <h2 class="font-serif text-3xl md:text-4xl text-brand-dark mb-4">Brand Positioning & DNA</h2>
+                <p class="text-brand-text/80 text-lg">
+                    This section visualizes the strategic gap Mariah Travel fills. By comparing our core attributes against generic mass-market operators (like Expedia), we highlight our unique value proposition: highly curated, expert-led, and conservation-focused experiences that prioritize human connection.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Data Viz -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-brand-light">
+                    <h3 class="text-center font-serif text-xl mb-4 text-brand-dark">Mariah Travel vs. Mass Market</h3>
+                    <div class="chart-container">
+                        <canvas id="positioningChart"></canvas>
+                    </div>
+                    <p class="text-xs text-center text-gray-500 mt-4 italic">Interactive: Hover over points for details. Click legend to toggle.</p>
+                </div>
+                
+                <!-- Core Pillars Text -->
+                <div class="space-y-6">
+                    <h3 class="font-serif text-2xl border-b border-brand-light pb-2">The "Why Mariah?" Pillars</h3>
+                    
+                    <div class="flex gap-4">
+                        <div class="text-brand-accent text-2xl">&#127793;</div>
+                        <div>
+                            <h4 class="font-semibold text-lg">Meaningful & Authentic</h4>
+                            <p class="text-sm text-brand-text/80 mt-1">Immersive cultural experiences and wildlife journeys that go beyond surface-level sightseeing.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <div class="text-brand-accent text-2xl">&#128101;</div>
+                        <div>
+                            <h4 class="font-semibold text-lg">Small Group & Expert-Led</h4>
+                            <p class="text-sm text-brand-text/80 mt-1">Decades of destination expertise ensuring deep educational value and personal attention.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <div class="text-brand-accent text-2xl">&#129309;</div>
+                        <div>
+                            <h4 class="font-semibold text-lg">Conservation & Community</h4>
+                            <p class="text-sm text-brand-text/80 mt-1">Experiences that directly benefit local people and environments, backed by partnerships like the NWF.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Audience Analysis -->
+        <section id="audience" class="bg-brand-light/40 py-20 mb-24 border-y border-brand-light">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 max-w-3xl mx-auto">
+                    <h2 class="font-serif text-3xl md:text-4xl text-brand-dark mb-4">Audience Demographics & Motivations</h2>
+                    <p class="text-brand-text/80 text-lg">
+                        Understanding who we are designing for is critical. This section breaks down our primary and secondary traveler profiles. The UX must cater to the trust-driven needs of mature travelers while remaining visually engaging for younger, meaning-seeking adventurers.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Chart -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-brand-light lg:col-span-1">
+                        <h3 class="text-center font-serif text-lg mb-2">Target Market Focus</h3>
+                        <div class="chart-container" style="height: 300px;">
+                            <canvas id="audienceChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Audience Profiles (Interactive Tabs) -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-brand-light lg:col-span-2 flex flex-col">
+                        <div class="flex border-b border-brand-light mb-6">
+                            <button onclick="switchTab('primary')" id="tab-primary" class="pb-3 px-4 font-semibold text-brand-accent border-b-2 border-brand-accent transition-colors">Primary: The Mature Explorer</button>
+                            <button onclick="switchTab('secondary')" id="tab-secondary" class="pb-3 px-4 font-medium text-gray-400 hover:text-brand-text transition-colors">Secondary: The Experiential Seeker</button>
+                        </div>
+                        
+                        <!-- Primary Tab Content -->
+                        <div id="content-primary" class="flex-grow">
+                            <h3 class="font-serif text-2xl mb-2">Age 50-70+ | Retired Professionals</h3>
+                            <div class="grid grid-cols-2 gap-4 mt-4">
+                                <div class="bg-brand-bg p-4 rounded-lg">
+                                    <h4 class="font-semibold text-sm uppercase text-brand-accent mb-2">Key Motivations</h4>
+                                    <ul class="text-sm space-y-2">
+                                        <li>&#8226; Cultural curiosity & Education</li>
+                                        <li>&#8226; Safe, expert-guided logistics</li>
+                                        <li>&#8226; Relationship & Trust-oriented</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-brand-bg p-4 rounded-lg">
+                                    <h4 class="font-semibold text-sm uppercase text-brand-accent mb-2">UX Requirements</h4>
+                                    <ul class="text-sm space-y-2">
+                                        <li>&#8226; Prominent Trust Signals (NWF)</li>
+                                        <li>&#8226; Clear, highly legible typography</li>
+                                        <li>&#8226; "Talk to us" contact paths</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-sm italic text-gray-600 border-l-4 border-brand-light pl-3">"They typically need reassurance and relationship-building first... We want to get the visitor to take the next step toward a conversation."</p>
+                        </div>
+
+                        <!-- Secondary Tab Content -->
+                        <div id="content-secondary" class="hidden flex-grow">
+                            <h3 class="font-serif text-2xl mb-2">Age 30-45 | Adventure & Meaning</h3>
+                            <div class="grid grid-cols-2 gap-4 mt-4">
+                                <div class="bg-brand-bg p-4 rounded-lg">
+                                    <h4 class="font-semibold text-sm uppercase text-brand-accent mb-2">Key Motivations</h4>
+                                    <ul class="text-sm space-y-2">
+                                        <li>&#8226; Photography & Wildlife</li>
+                                        <li>&#8226; Off-the-beaten-path authenticity</li>
+                                        <li>&#8226; Conservation & Sustainability impact</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-brand-bg p-4 rounded-lg">
+                                    <h4 class="font-semibold text-sm uppercase text-brand-accent mb-2">UX Requirements</h4>
+                                    <ul class="text-sm space-y-2">
+                                        <li>&#8226; Stunning visual/cinematic imagery</li>
+                                        <li>&#8226; Detailed itineraries & downloadable assets</li>
+                                        <li>&#8226; Clear focus on community impact</li>
+                                    </ul>
+                                </div>
+                            </div>
+                             <p class="mt-4 text-sm italic text-gray-600 border-l-4 border-brand-light pl-3">"Meaningful experience seekers looking for photography, wildlife, and deeply authentic cultural connections."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: UX Conversion Strategy -->
+        <section id="ux-strategy" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24 scroll-mt-24">
+            <div class="text-center mb-12 max-w-3xl mx-auto">
+                <h2 class="font-serif text-3xl md:text-4xl text-brand-dark mb-4">UX Strategy: The Relationship Funnel</h2>
+                <p class="text-brand-text/80 text-lg">
+                    Mariah Travel is not transactional; it is relational. This interactive section demonstrates how we will evolve the Calls to Action (CTAs) across the site to lower the barrier to entry, build trust, and initiate meaningful conversations rather than demanding immediate bookings.
+                </p>
+            </div>
+
+            <div class="bg-white border border-brand-light rounded-2xl p-8 shadow-sm">
+                <h3 class="font-semibold text-center mb-8 uppercase tracking-widest text-sm text-gray-500">Click cards to reveal the strategy shift</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- Interactive Card 1 -->
+                    <div class="group cursor-pointer perspective-1000" onclick="this.classList.toggle('flipped')">
+                        <div class="relative w-full h-48 transition-transform duration-500 transform-style-3d border-2 border-dashed border-gray-300 rounded-xl hover:border-brand-accent p-6 flex flex-col justify-center items-center text-center bg-gray-50 group-[.flipped]:bg-brand-light/30 group-[.flipped]:border-brand-accent group-[.flipped]:border-solid">
+                            <div class="group-[.flipped]:hidden">
+                                <span class="text-red-500 text-3xl mb-2 block">&#10005;</span>
+                                <span class="font-bold text-gray-700">Generic Approach</span>
+                                <span class="block mt-2 text-xl font-serif">"Book Now"</span>
+                            </div>
+                            <div class="hidden group-[.flipped]:block">
+                                <span class="text-brand-accent text-3xl mb-2 block">&#10003;</span>
+                                <span class="font-bold text-brand-dark">Mariah Strategy</span>
+                                <span class="block mt-2 text-xl font-serif text-brand-accent">"Talk with an Expert"</span>
+                                <p class="text-xs mt-2 text-gray-600">Encourages consultation and relationship building for high-ticket experiences.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Card 2 -->
+                    <div class="group cursor-pointer perspective-1000" onclick="this.classList.toggle('flipped')">
+                        <div class="relative w-full h-48 transition-transform duration-500 transform-style-3d border-2 border-dashed border-gray-300 rounded-xl hover:border-brand-accent p-6 flex flex-col justify-center items-center text-center bg-gray-50 group-[.flipped]:bg-brand-light/30 group-[.flipped]:border-brand-accent group-[.flipped]:border-solid">
+                            <div class="group-[.flipped]:hidden">
+                                <span class="text-red-500 text-3xl mb-2 block">&#10005;</span>
+                                <span class="font-bold text-gray-700">Information Hoarding</span>
+                                <span class="block mt-2 text-xl font-serif">Hidden Itineraries</span>
+                            </div>
+                            <div class="hidden group-[.flipped]:block">
+                                <span class="text-brand-accent text-3xl mb-2 block">&#10003;</span>
+                                <span class="font-bold text-brand-dark">Value Exchange</span>
+                                <span class="block mt-2 text-xl font-serif text-brand-accent">"Download Detailed Itinerary"</span>
+                                <p class="text-xs mt-2 text-gray-600">Provide value upfront while capturing emails for the nurturing sequence.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Card 3 -->
+                    <div class="group cursor-pointer perspective-1000" onclick="this.classList.toggle('flipped')">
+                        <div class="relative w-full h-48 transition-transform duration-500 transform-style-3d border-2 border-dashed border-gray-300 rounded-xl hover:border-brand-accent p-6 flex flex-col justify-center items-center text-center bg-gray-50 group-[.flipped]:bg-brand-light/30 group-[.flipped]:border-brand-accent group-[.flipped]:border-solid">
+                            <div class="group-[.flipped]:hidden">
+                                <span class="text-red-500 text-3xl mb-2 block">&#10005;</span>
+                                <span class="font-bold text-gray-700">Rigid Search</span>
+                                <span class="block mt-2 text-xl font-serif">Search by Country Only</span>
+                            </div>
+                            <div class="hidden group-[.flipped]:block">
+                                <span class="text-brand-accent text-3xl mb-2 block">&#10003;</span>
+                                <span class="font-bold text-brand-dark">Hybrid Exploration</span>
+                                <span class="block mt-2 text-xl font-serif text-brand-accent">Destinations + Themes</span>
+                                <p class="text-xs mt-2 text-gray-600">Allows users to browse by passion (e.g., Birding) or geography (e.g., Galapagos).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Interactive Information Architecture -->
+        <section id="architecture" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+            <div class="text-center mb-12 max-w-3xl mx-auto">
+                <h2 class="font-serif text-3xl md:text-4xl text-brand-dark mb-4">Proposed Information Architecture</h2>
+                <p class="text-brand-text/80 text-lg">
+                    This is the core deliverable of Week 1. To ensure scalability, we are shifting the nomenclature from restrictive terms ("Cuba Tours") to expandable frameworks ("Destinations", "Experiences"). Interact with the sitemap below to explore the proposed hierarchy.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-brand-light p-6 md:p-10 flex flex-col md:flex-row gap-10">
+                
+                <!-- Interactive Tree View -->
+                <div class="w-full md:w-1/2 bg-brand-bg rounded-xl p-6 custom-scrollbar overflow-y-auto max-h-[500px] border border-gray-200">
+                    <h3 class="font-semibold text-sm uppercase tracking-wider text-gray-500 mb-4 border-b pb-2">Main Navigation Structure</h3>
+                    
+                    <ul class="text-lg font-serif">
+                        
+                        <!-- Top Level 1 -->
+                        <li class="mb-2">
+                            <div class="sitemap-button p-2 rounded flex justify-between items-center bg-white shadow-sm border border-gray-100" onclick="toggleNode('nav-destinations', this)">
+                                <span><span class="icon-unicode mr-2">&#128205;</span> Destinations</span>
+                                <span class="text-brand-accent toggle-icon text-xl transition-transform">&#43;</span>
+                            </div>
+                            <ul id="nav-destinations" class="hidden sitemap-node text-base font-sans mt-2">
+                                <li class="py-1 hover:text-brand-accent cursor-default text-gray-600">&#8226; Cuba <span class="text-xs ml-2 bg-brand-accent/10 text-brand-accent px-2 py-0.5 rounded">Core</span></li>
+                                <li class="py-1 hover:text-brand-accent cursor-default text-gray-600">&#8226; Galápagos <span class="text-xs ml-2 bg-brand-accent/10 text-brand-accent px-2 py-0.5 rounded">Core</span></li>
+                                <li class="py-1 hover:text-brand-accent cursor-default text-gray-600">&#8226; Peru</li>
+                                <li class="py-1 hover:text-brand-accent cursor-default text-gray-400 italic">&#8226; Future: Costa Rica, Colombia...</li>
+                            </ul>
+                        </li>
+
+                        <!-- Top Level 2 -->
+                        <li class="mb-2">
+                            <div class="sitemap-button p-2 rounded flex justify-between items-center bg-white shadow-sm border border-gray-100" onclick="toggleNode('nav-experiences', this)">
+                                <span><span class="icon-unicode mr-2">&#127793;</span> Experiences (Themes)</span>
+                                <span class="text-brand-accent toggle-icon text-xl transition-transform">&#43;</span>
+                            </div>
+                            <ul id="nav-experiences" class="hidden sitemap-node text-base font-sans mt-2">
+                                <li class="py-1 hover:text-brand-accent cursor-default text-gray-600">&#8226; Birding & Wildlife</li>
+                                <li class="py-1 hover:text-brand-accent cursor-default text-gray-600">&#8226; Culture & History</li>
+                                <li class="py-1 hover:text-brand-accent cursor-default text-gray-600">&#8226; Photography</li>
+                                <li class="py-1 hover:text-brand-accent cursor-default text-gray-600">&#8226; Conservation Projects</li>
+                            </ul>
+                        </li>
+
+                        <!-- Top Level 3 -->
+                        <li class="mb-2">
+                            <div class="sitemap-button p-2 rounded flex justify-between items-center bg-white shadow-sm border border-gray-100" onclick="toggleNode('nav-styles', this)">
+                                <span><span class="icon-unicode mr-2">&#128674;</span> Travel Styles</span>
+                                <span class="text-brand-accent toggle-icon text-xl transition-transform">&#43;</span>
+                            </div>
+                            <ul id="nav-styles" class="hidden sitemap-node text-base font-sans mt-2">
+                                <li class="py-1 hover:text-brand-accent cursor-default text-gray-600">&#8226; Small Group Journeys</li>
+                                <li class="py-1 hover:text-brand-accent cursor-default text-gray-600">&#8226; Expedition Cruises</li>
+                                <li class="py-1 hover:text-brand-accent cursor-default text-gray-600">&#8226; Custom & Private Travel</li>
+                            </ul>
+                        </li>
+
+                        <!-- Top Level 4 -->
+                        <li class="mb-2">
+                            <div class="sitemap-button p-2 rounded flex justify-between items-center bg-white shadow-sm border border-gray-100" onclick="toggleNode('nav-about', this)">
+                                <span><span class="icon-unicode mr-2">&#127942;</span> The Mariah Difference</span>
+                                <span class="text-brand-accent toggle-icon text-xl transition-transform">&#43;</span>
+                            </div>
+                            <ul id="nav-about" class="hidden sitemap-node text-base font-sans mt-2">
+                                <li class="py-1 hover:text-brand-accent cursor-default text-gray-600">&#8226; Our Story & Expertise</li>
+                                <li class="py-1 hover:text-brand-accent cursor-default text-gray-600">&#8226; Trust & Safety (Legal Cuba Travel)</li>
+                                <li class="py-1 hover:text-brand-accent cursor-default text-gray-600 font-semibold text-brand-dark">&#8226; Conservation & Awards (NWF)</li>
+                                <li class="py-1 hover:text-brand-accent cursor-default text-gray-600">&#8226; Testimonials</li>
+                            </ul>
+                        </li>
+
+                        <!-- Top Level 5 -->
+                        <li class="mb-4">
+                            <div class="sitemap-button p-2 rounded flex justify-between items-center bg-white shadow-sm border border-gray-100 hover:bg-gray-50">
+                                <span><span class="icon-unicode mr-2">&#128231;</span> Connect / Contact Us</span>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <!-- Explanation Panel -->
+                <div class="w-full md:w-1/2 flex flex-col justify-center">
+                    <div class="bg-brand-light/30 p-8 rounded-xl border border-brand-light relative">
+                        <span class="absolute top-4 right-4 text-3xl opacity-20">&#128161;</span>
+                        <h4 class="font-serif text-2xl text-brand-dark mb-4">Strategic Rationale</h4>
+                        <ul class="space-y-4 text-gray-700">
+                            <li class="flex items-start">
+                                <span class="text-brand-accent mr-3 mt-1">&#10003;</span>
+                                <div>
+                                    <strong>Scalability:</strong> By using "Destinations" instead of hardcoding "Cuba Tours", the UI framework supports adding Thailand or Colombia seamlessly in the future.
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-brand-accent mr-3 mt-1">&#10003;</span>
+                                <div>
+                                    <strong>Multiple Entry Points:</strong> Users don't browse just one way. The architecture allows them to find trips by Geography (Peru), by Passion (Birding), or by Style (Small Group).
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-brand-accent mr-3 mt-1">&#10003;</span>
+                                <div>
+                                    <strong>Authority Building:</strong> "The Mariah Difference" dedicates top-level space to trust signals, prominently featuring the National Wildlife Federation recognition and safety data.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-brand-dark text-white py-8 border-t-4 border-brand-accent">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="font-serif text-lg mb-2">Mariah Travel</p>
+            <p class="text-sm text-gray-400">Phase 1: Research & Strategy Document | Generated for Internal Review</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Logic -->
+    <script>
+        // Data for Positioning Chart (Radar)
+        const positioningCtx = document.getElementById('positioningChart').getContext('2d');
+        const positioningChart = new Chart(positioningCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Educational Depth', 'Cultural Authenticity', 'Conservation Impact', 'Personal Relationship', 'Mass Market / Generic', 'Transactional Focus'],
+                datasets: [
+                    {
+                        label: 'Mariah Travel',
+                        data: [95, 90, 85, 90, 10, 15],
+                        backgroundColor: 'rgba(44, 62, 45, 0.2)', // brand-dark with opacity
+                        borderColor: 'rgba(44, 62, 45, 1)',
+                        pointBackgroundColor: 'rgba(193, 119, 84, 1)', // brand-accent
+                        borderWidth: 2,
+                    },
+                    {
+                        label: 'Generic Booking Sites',
+                        data: [30, 40, 20, 20, 95, 90],
+                        backgroundColor: 'rgba(156, 163, 175, 0.2)', // gray
+                        borderColor: 'rgba(156, 163, 175, 1)',
+                        borderWidth: 1,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                        grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                        pointLabels: {
+                            font: { family: 'Montserrat', size: 11 },
+                            color: '#2C3E2D'
+                        },
+                        ticks: { display: false, min: 0, max: 100 }
+                    }
+                },
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { family: 'Montserrat' } } },
+                    tooltip: { backgroundColor: '#1A2421', titleFont: { family: 'Lora' }, bodyFont: { family: 'Montserrat' } }
+                }
+            }
+        });
+
+        // Data for Audience Chart (Doughnut)
+        const audienceCtx = document.getElementById('audienceChart').getContext('2d');
+        const audienceChart = new Chart(audienceCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Primary (50-70+)', 'Secondary (30-45)'],
+                datasets: [{
+                    data: [65, 35],
+                    backgroundColor: [
+                        '#C17754', // Accent
+                        '#2C3E2D'  // Dark
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { family: 'Montserrat' }, color: '#2C3E2D' } },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += context.parsed + '% focus';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Tab Switching Logic for Audience Section
+        function switchTab(tabId) {
+            // Hide all contents
+            document.getElementById('content-primary').classList.add('hidden');
+            document.getElementById('content-secondary').classList.add('hidden');
+            
+            // Reset button styles
+            const btnPrimary = document.getElementById('tab-primary');
+            const btnSecondary = document.getElementById('tab-secondary');
+            
+            btnPrimary.className = "pb-3 px-4 font-medium text-gray-400 hover:text-brand-text transition-colors";
+            btnSecondary.className = "pb-3 px-4 font-medium text-gray-400 hover:text-brand-text transition-colors";
+
+            // Show active content and style active button
+            if(tabId === 'primary') {
+                document.getElementById('content-primary').classList.remove('hidden');
+                btnPrimary.className = "pb-3 px-4 font-semibold text-brand-accent border-b-2 border-brand-accent transition-colors";
+            } else {
+                document.getElementById('content-secondary').classList.remove('hidden');
+                btnSecondary.className = "pb-3 px-4 font-semibold text-brand-accent border-b-2 border-brand-accent transition-colors";
+            }
+        }
+
+        // Sitemap Interactive Toggle Logic
+        function toggleNode(nodeId, headerElement) {
+            const node = document.getElementById(nodeId);
+            const icon = headerElement.querySelector('.toggle-icon');
+            
+            if (node.classList.contains('hidden')) {
+                node.classList.remove('hidden');
+                icon.innerHTML = '&#8722;'; // Minus sign
+                icon.style.transform = "rotate(180deg)";
+            } else {
+                node.classList.add('hidden');
+                icon.innerHTML = '&#43;'; // Plus sign
+                icon.style.transform = "rotate(0deg)";
+            }
+        }
+    </script>
+</body>
+</html>
